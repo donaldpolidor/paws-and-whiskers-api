@@ -19,16 +19,36 @@ const connectDB = async () => {
 
 connectDB();
 
-// Basic route for testing
+// Import routes
+const dogsRoutes = require("./routes/dogs");
+const catsRoutes = require("./routes/cats");
+
+// Routes
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to Paws & Whiskers Database API",
     version: "1.0.0",
-    documentation: "/api-docs"
+    documentation: "/api-docs",
+    endpoints: {
+      dogs: "/api/dogs",
+      cats: "/api/cats"
+    }
   });
 });
 
-// Error handling middleware
+// API Routes
+app.use("/api/dogs", dogsRoutes);
+app.use("/api/cats", catsRoutes);
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Route not found",
+    availableRoutes: ["/", "/api/dogs", "/api/cats"]
+  });
+});
+
+// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong!" });
