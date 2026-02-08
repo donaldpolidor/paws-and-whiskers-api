@@ -1,4 +1,6 @@
 ﻿const express = require("express");
+const Dog = require("../models/Dog");
+
 const router = express.Router();
 const {
   getAllDogs,

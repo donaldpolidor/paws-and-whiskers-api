@@ -1,4 +1,6 @@
 ﻿const express = require("express");
+const Cat = require("../models/Cat");
+
 const router = express.Router();
 const {
   getAllCats,
