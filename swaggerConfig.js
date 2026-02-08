@@ -1,27 +1,4 @@
-﻿const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
-
-const app = express();
-
-// Configuration CORS
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
-  credentials: true
-}));
-
-app.use(express.json());
-
-// Importez et utilisez la connexion DB
-const connectDB = require("./config/db");
-connectDB();
-
-// Swagger Documentation
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
-
+// swaggerConfig.js
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -101,13 +78,11 @@ const swaggerOptions = {
             },
             createdAt: {
               type: "string",
-              format: "date-time",
-              description: "Creation timestamp"
+              format: "date-time"
             },
             updatedAt: {
               type: "string",
-              format: "date-time",
-              description: "Last update timestamp"
+              format: "date-time"
             }
           },
           example: {
@@ -170,13 +145,11 @@ const swaggerOptions = {
             },
             createdAt: {
               type: "string",
-              format: "date-time",
-              description: "Creation timestamp"
+              format: "date-time"
             },
             updatedAt: {
               type: "string",
-              format: "date-time",
-              description: "Last update timestamp"
+              format: "date-time"
             }
           },
           example: {
@@ -197,9 +170,6 @@ const swaggerOptions = {
               type: "string",
               description: "Error message"
             }
-          },
-          example: {
-            error: "An error occurred"
           }
         }
       },
@@ -243,13 +213,6 @@ const swaggerOptions = {
             }
           }
         }
-      },
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT"
-        }
       }
     },
     tags: [
@@ -261,73 +224,9 @@ const swaggerOptions = {
         name: "Dogs",
         description: "Operations about dog breeds"
       }
-    ],
-    externalDocs: {
-      description: "Find more info here",
-      url: "https://github.com/donaldpolidor/paws-and-whiskers-api"
-    }
+    ]
   },
   apis: ["./routes/*.js"]
 };
 
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
-
-// Swagger UI
-app.use("/api-docs", 
-  swaggerUi.serve,
-  (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-  },
-  swaggerUi.setup(swaggerSpec, {
-    explorer: true,
-    customSiteTitle: "Paws & Whiskers API",
-    swaggerOptions: {
-      persistAuthorization: true,
-      displayRequestDuration: true,
-      docExpansion: "list",
-      filter: true,
-      showExtensions: true,
-      showCommonExtensions: true,
-      defaultModelsExpandDepth: 2,
-      defaultModelExpandDepth: 2
-    },
-    customCss: '.swagger-ui .topbar { display: none }',
-    customfavIcon: '/favicon.ico'
-  })
-);
-
-// Import routes
-const dogsRoutes = require("./routes/dogs");
-const catsRoutes = require("./routes/cats");
-
-// Routes
-app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to Paws & Whiskers Database API",
-    version: "1.0.0",
-    documentation: "/api-docs",
-    endpoints: {
-      dogs: "/api/dogs",
-      cats: "/api/cats"
-    }
-  });
-});
-
-// API Routes
-app.use("/api/dogs", dogsRoutes);
-app.use("/api/cats", catsRoutes);
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: err.message || "Something went wrong" });
-});
-
-module.exports = app;
+module.exports = swaggerOptions;
