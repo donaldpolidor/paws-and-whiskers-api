@@ -1,69 +1,25 @@
 ﻿const express = require("express");
 const router = express.Router();
 const Dog = require("../models/Dog");
+const {getAllDogs, getDogById, postDog, updateDog, deleteDog} = require("../controllers/dogControllers");
 
 // GET all dogs
-router.get("/", async (req, res) => {
-  try {
-    const dogs = await Dog.find();
-    res.json(dogs);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.get("/", getAllDogs);
 
 // GET single dog
-router.get("/:id", async (req, res) => {
-  try {
-    const dog = await Dog.findById(req.params.id);
-    if (!dog) {
-      return res.status(404).json({ error: "Dog not found" });
-    }
-    res.json(dog);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.get("/:id", getDogById);
 
 // POST create dog
-router.post("/", async (req, res) => {
-  try {
-    const dog = new Dog(req.body);
-    await dog.save();
-    res.status(201).json(dog);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+router.post("/", postDog);
+
+module.exports = router;
+
+
 
 // PUT update dog
-router.put("/:id", async (req, res) => {
-  try {
-    const dog = await Dog.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    );
-    if (!dog) {
-      return res.status(404).json({ error: "Dog not found" });
-    }
-    res.json(dog);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+router.put("/:id", updateDog)
 
 // DELETE dog
-router.delete("/:id", async (req, res) => {
-  try {
-    const dog = await Dog.findByIdAndDelete(req.params.id);
-    if (!dog) {
-      return res.status(404).json({ error: "Dog not found" });
-    }
-    res.json({ message: "Dog deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.delete("/:id", deleteDog);
 
 module.exports = router;
