@@ -1,8 +1,21 @@
 ﻿const express = require("express");
 const mongoose = require("mongoose");
+const swaggerUi = require("swagger-ui-express"); 
+const swaggerSpec = require("./config/swagger");
+
 require("dotenv").config();
 
 const app = express();
+
+// Serve swagger.json directly
+app.get("/swagger.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
+
+// Serve Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // Middleware
 app.use(express.json());

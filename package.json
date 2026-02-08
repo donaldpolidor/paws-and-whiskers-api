@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "paws-and-whiskers-api",
   "version": "1.0.0",
   "description": "API for dog and cat breeds database - CSE 341 Final Project",
@@ -9,7 +9,14 @@
     "seed": "node seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["api", "mongodb", "express", "breeds", "dogs", "cats"],
+  "keywords": [
+    "api",
+    "mongodb",
+    "express",
+    "breeds",
+    "dogs",
+    "cats"
+  ],
   "author": "Donald Polidor & Innocent Dzowera",
   "license": "ISC",
   "type": "commonjs",
@@ -17,7 +24,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "mongoose": "^8.0.3"
+    "mongoose": "^8.0.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
