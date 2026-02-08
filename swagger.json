@@ -1,0 +1,292 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My API Documentation",
+    "version": "1.0.0",
+    "description": "Auto-generated Swagger docs for my Express API"
+  },
+  "paths": {
+    "/api/cats": {
+      "get": {
+        "summary": "Get all cats",
+        "tags": [
+          "Cats"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of cats"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new cat",
+        "tags": [
+          "Cats"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cat created successfully"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/cats/{id}": {
+      "get": {
+        "summary": "Get a single cat by ID",
+        "tags": [
+          "Cats"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cat ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cat found"
+          },
+          "404": {
+            "description": "Cat not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a cat by ID",
+        "tags": [
+          "Cats"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cat updated successfully"
+          },
+          "404": {
+            "description": "Cat not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a cat by ID",
+        "tags": [
+          "Cats"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cat deleted successfully"
+          },
+          "404": {
+            "description": "Cat not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/dogs": {
+      "get": {
+        "summary": "Get all dogs",
+        "tags": [
+          "Dogs"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of dogs"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new dog",
+        "tags": [
+          "Dogs"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dog"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dog created successfully"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/dogs/{id}": {
+      "get": {
+        "summary": "Get a single dog by ID",
+        "tags": [
+          "Dogs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Dog ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dog found"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a dog by ID",
+        "tags": [
+          "Dogs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dog"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dog updated successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a dog by ID",
+        "tags": [
+          "Dogs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dog deleted successfully"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": [
+    {
+      "name": "Cats",
+      "description": "Cat management API"
+    },
+    {
+      "name": "Dogs",
+      "description": "Dog management API"
+    }
+  ]
+}

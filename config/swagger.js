@@ -1,5 +1,6 @@
 // config/swagger.js
 const swaggerJsdoc = require("swagger-jsdoc");
+const fs = require('fs');
 const path = require("path");
 
 const options = {
@@ -16,5 +17,8 @@ const options = {
 };
 
 const swaggerSpec = swaggerJsdoc(options);
+
+// write to file
+fs.writeFileSync('./swagger.json', JSON.stringify(swaggerSpec, null, 2));
 
 module.exports = swaggerSpec;
