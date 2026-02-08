@@ -50,11 +50,11 @@ async function seed() {
     
     // Insert dogs
     const insertedDogs = await Dog.insertMany(dogs);
-    console.log(\` Added \${insertedDogs.length} dogs\`);
+    console.log(` Added ${insertedDogs.length} dogs`);
     
     // Insert cats
     const insertedCats = await Cat.insertMany(cats);
-    console.log(\` Added \${insertedCats.length} cats\`);
+    console.log(` Added ${insertedCats.length} cats`);
     
     console.log(" Seeding completed!");
     
