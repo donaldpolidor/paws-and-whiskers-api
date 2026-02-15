@@ -1,4 +1,4 @@
-@'
+
 # Paws & Whiskers Database API
 
 ## CSE 341 Final Project - Week 05, Part 1
@@ -43,56 +43,64 @@
 A RESTful API for managing a comprehensive database of dog and cat breeds with authentication and authorization features.
 
 ### Technology Stack
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB Atlas, Mongoose ODM
-- **Authentication:** JWT, bcrypt
-- **Documentation:** Swagger/OpenAPI
-- **Deployment:** Render
+- Backend: Node.js, Express.js
+- Database: MongoDB Atlas, Mongoose ODM
+- Authentication: JWT, bcrypt
+- Documentation: Swagger/OpenAPI
+- Deployment: Render
 
-### 🌐 **Live Deployment**
-- **API URL:** https://paws-and-whiskers-api.onrender.com
-- **GitHub Repository:** https://github.com/donaldpolidor/paws-and-whiskers-api
-- **Status:** ✅ Live and functional
+### Live Deployment
+- API URL: https://paws-and-whiskers-api.onrender.com
+- GitHub Repository: https://github.com/donaldpolidor/paws-and-whiskers-api
+- Status: Live and functional
 
-### 📞 **API Endpoints**
+### API Endpoints
 
-#### **Base Routes**
-- `GET /` - Welcome message and API info
-- `GET /api-docs` - Swagger documentation (coming soon)
+#### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user (protected)
 
-#### **Dogs Collection**
-- `GET /api/dogs` - Get all dog breeds
-- `GET /api/dogs/:id` - Get specific dog breed
-- `POST /api/dogs` - Create new dog breed
-- `PUT /api/dogs/:id` - Update dog breed
-- `DELETE /api/dogs/:id` - Delete dog breed
+#### Dogs Collection (CRUD)
+- `GET /api/dogs` - Get all dogs (public)
+- `GET /api/dogs/:id` - Get specific dog (public)
+- `POST /api/dogs` - Create dog (ADMIN only)
+- `PUT /api/dogs/:id` - Update dog (ADMIN only)
+- `DELETE /api/dogs/:id` - Delete dog (ADMIN only)
 
-#### **Cats Collection**
-- `GET /api/cats` - Get all cat breeds
-- `GET /api/cats/:id` - Get specific cat breed
-- `POST /api/cats` - Create new cat breed
-- `PUT /api/cats/:id` - Update cat breed
-- `DELETE /api/cats/:id` - Delete cat breed
+#### Cats Collection (CRUD)
+- `GET /api/cats` - Get all cats (public)
+- `GET /api/cats/:id` - Get specific cat (public)
+- `POST /api/cats` - Create cat (ADMIN only)
+- `PUT /api/cats/:id` - Update cat (ADMIN only)
+- `DELETE /api/cats/:id` - Delete cat (ADMIN only)
 
-### 🏃‍♂️ **Getting Started**
+#### Birds Collection (NEW)
+- `GET /api/birds` - Get all birds (public)
+- `GET /api/birds/:id` - Get specific bird (public)
+- `POST /api/birds` - Create bird (ADMIN only)
+- `PUT /api/birds/:id` - Update bird (ADMIN only)
+- `DELETE /api/birds/:id` - Delete bird (ADMIN only)
 
-#### **Prerequisites**
-- Node.js (v14+)
-- npm or yarn
-- MongoDB Atlas account
+#### Fish Collection (NEW)
+- `GET /api/fish` - Get all fish (public)
+- `GET /api/fish/:id` - Get specific fish (public)
+- `POST /api/fish` - Create fish (ADMIN only)
+- `PUT /api/fish/:id` - Update fish (ADMIN only)
+- `DELETE /api/fish/:id` - Delete fish (ADMIN only)
 
-#### **Installation**
+### Authentication Flow
+
+1. Register: `POST /api/auth/register`
+2. Login: `POST /api/auth/login`
+3. Get Token: Copy the JWT token from response
+4. Authorize: Click "Authorize" button in Swagger UI and paste: `Bearer YOUR_TOKEN`
+
+### Testing
+
 ```bash
-# Clone the repository
-git clone https://github.com/donaldpolidor/paws-and-whiskers-api.git
-cd paws-and-whiskers-api
+# Run all tests
+npm test
 
-# Install dependencies
-npm install
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your MongoDB credentials
-
-# Run the application
-npm run dev
+# Run tests in watch mode
+npm run test:watch
