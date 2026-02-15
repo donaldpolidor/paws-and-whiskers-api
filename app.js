@@ -1,8 +1,21 @@
 ﻿const express = require("express");
 const cors = require("cors");
+const session = require('express-session');
+const passport = require('passport');
 require("dotenv").config();
 
 const app = express();
+
+// Session middleware (pour OAuth)
+app.use(session({
+  secret: process.env.JWT_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Configuration CORS
 app.use(cors({
@@ -21,286 +34,27 @@ connectDB();
 // Swagger Documentation
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Paws & Whiskers Database API",
-      version: "1.0.0",
-      description: "API for dog and cat breeds database",
-      contact: {
-        name: "API Support",
-        email: "support@pawsandwhiskers.com"
-      },
-      license: {
-        name: "MIT",
-        url: "https://opensource.org/licenses/MIT"
-      }
-    },
-    servers: [
-      {
-        url: "https://paws-and-whiskers-api.onrender.com",
-        description: "Production server"
-      },
-      {
-        url: "http://localhost:3000",
-        description: "Development server"
-      }
-    ],
-    components: {
-      schemas: {
-        Cat: {
-          type: "object",
-          required: ["breed", "lifespan", "size", "coatLength", "intelligence", "vocalization"],
-          properties: {
-            _id: {
-              type: "string",
-              description: "Auto-generated unique identifier"
-            },
-            breed: {
-              type: "string",
-              description: "Name of the cat breed"
-            },
-            lifespan: {
-              type: "string",
-              description: "Average lifespan of the breed"
-            },
-            size: {
-              type: "string",
-              enum: ["Small", "Medium", "Large"],
-              description: "Size category"
-            },
-            coatLength: {
-              type: "string",
-              enum: ["Short", "Medium", "Long"],
-              description: "Length of the coat"
-            },
-            temperament: {
-              type: "array",
-              items: {
-                type: "string"
-              },
-              description: "List of temperament traits"
-            },
-            intelligence: {
-              type: "integer",
-              minimum: 1,
-              maximum: 5,
-              description: "Intelligence rating (1-5)"
-            },
-            vocalization: {
-              type: "integer",
-              minimum: 1,
-              maximum: 5,
-              description: "Vocalization level (1-5)"
-            },
-            imageUrl: {
-              type: "string",
-              description: "URL to an image of the breed"
-            },
-            createdAt: {
-              type: "string",
-              format: "date-time",
-              description: "Creation timestamp"
-            },
-            updatedAt: {
-              type: "string",
-              format: "date-time",
-              description: "Last update timestamp"
-            }
-          },
-          example: {
-            breed: "Siamese",
-            lifespan: "15-20 years",
-            size: "Medium",
-            coatLength: "Short",
-            temperament: ["Vocal", "Social", "Intelligent"],
-            intelligence: 5,
-            vocalization: 5,
-            imageUrl: "https://example.com/siamese.jpg"
-          }
-        },
-        Dog: {
-          type: "object",
-          required: ["breed", "lifespan", "size", "energyLevel"],
-          properties: {
-            _id: {
-              type: "string",
-              description: "Auto-generated unique identifier"
-            },
-            breed: {
-              type: "string",
-              description: "Name of the dog breed"
-            },
-            lifespan: {
-              type: "string",
-              description: "Average lifespan of the breed"
-            },
-            size: {
-              type: "string",
-              enum: ["Small", "Medium", "Large"],
-              description: "Size category"
-            },
-            energyLevel: {
-              type: "integer",
-              minimum: 1,
-              maximum: 5,
-              description: "Energy level rating (1-5)"
-            },
-            temperament: {
-              type: "array",
-              items: {
-                type: "string"
-              },
-              description: "List of temperament traits"
-            },
-            goodWithKids: {
-              type: "boolean",
-              description: "Whether the breed is good with children"
-            },
-            shedding: {
-              type: "string",
-              enum: ["Low", "Medium", "High"],
-              description: "Shedding level"
-            },
-            imageUrl: {
-              type: "string",
-              description: "URL to an image of the breed"
-            },
-            createdAt: {
-              type: "string",
-              format: "date-time",
-              description: "Creation timestamp"
-            },
-            updatedAt: {
-              type: "string",
-              format: "date-time",
-              description: "Last update timestamp"
-            }
-          },
-          example: {
-            breed: "Golden Retriever",
-            lifespan: "10-12 years",
-            size: "Large",
-            energyLevel: 4,
-            temperament: ["Friendly", "Intelligent", "Devoted"],
-            goodWithKids: true,
-            shedding: "High",
-            imageUrl: "https://example.com/golden-retriever.jpg"
-          }
-        },
-        Error: {
-          type: "object",
-          properties: {
-            error: {
-              type: "string",
-              description: "Error message"
-            }
-          },
-          example: {
-            error: "An error occurred"
-          }
-        }
-      },
-      responses: {
-        NotFound: {
-          description: "Resource not found",
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/Error"
-              },
-              example: {
-                error: "Resource not found"
-              }
-            }
-          }
-        },
-        ValidationError: {
-          description: "Validation error",
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/Error"
-              },
-              example: {
-                error: "Validation failed: breed is required"
-              }
-            }
-          }
-        },
-        ServerError: {
-          description: "Internal server error",
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/Error"
-              },
-              example: {
-                error: "Internal server error occurred"
-              }
-            }
-          }
-        }
-      },
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT"
-        }
-      }
-    },
-    tags: [
-      {
-        name: "Cats",
-        description: "Operations about cat breeds"
-      },
-      {
-        name: "Dogs",
-        description: "Operations about dog breeds"
-      }
-    ],
-    externalDocs: {
-      description: "Find more info here",
-      url: "https://github.com/donaldpolidor/paws-and-whiskers-api"
-    }
-  },
-  apis: ["./routes/*.js"]
-};
-
+const swaggerOptions = require("./swaggerConfig");
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 // Swagger UI
 app.use("/api-docs", 
   swaggerUi.serve,
-  (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-  },
   swaggerUi.setup(swaggerSpec, {
     explorer: true,
     customSiteTitle: "Paws & Whiskers API",
     swaggerOptions: {
-      persistAuthorization: true,
-      displayRequestDuration: true,
-      docExpansion: "list",
-      filter: true,
-      showExtensions: true,
-      showCommonExtensions: true,
-      defaultModelsExpandDepth: 2,
-      defaultModelExpandDepth: 2
-    },
-    customCss: '.swagger-ui .topbar { display: none }',
-    customfavIcon: '/favicon.ico'
+      persistAuthorization: true
+    }
   })
 );
 
 // Import routes
+const authRoutes = require("./routes/auth");
 const dogsRoutes = require("./routes/dogs");
 const catsRoutes = require("./routes/cats");
+const birdsRoutes = require("./routes/birds");
+const fishRoutes = require("./routes/fish");
 
 // Routes
 app.get("/", (req, res) => {
@@ -309,15 +63,21 @@ app.get("/", (req, res) => {
     version: "1.0.0",
     documentation: "/api-docs",
     endpoints: {
+      auth: "/api/auth",
       dogs: "/api/dogs",
-      cats: "/api/cats"
+      cats: "/api/cats",
+      birds: "/api/birds",
+      fish: "/api/fish"
     }
   });
 });
 
 // API Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/dogs", dogsRoutes);
 app.use("/api/cats", catsRoutes);
+app.use("/api/birds", birdsRoutes);
+app.use("/api/fish", fishRoutes);
 
 // 404 handler
 app.use((req, res) => {
