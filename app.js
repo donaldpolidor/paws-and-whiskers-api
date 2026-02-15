@@ -35,6 +35,8 @@ connectDB();
 // Import routes
 const dogsRoutes = require("./routes/dogs");
 const catsRoutes = require("./routes/cats");
+const oauthRoutes = require("./routes/oauthRoutes");
+
 
 // Routes
 app.get("/", (req, res) => {
@@ -52,6 +54,8 @@ app.get("/", (req, res) => {
 // API Routes
 app.use("/api/dogs", dogsRoutes);
 app.use("/api/cats", catsRoutes);
+app.use("/auth", oauthRoutes);
+
 
 // 404 handler
 app.use((req, res) => {

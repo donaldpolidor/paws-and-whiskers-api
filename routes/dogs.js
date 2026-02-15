@@ -10,6 +10,8 @@ const {
   deleteDog
 } = require("../controllers/dogControllers");
 
+import { protect, adminOnly } from "../middleware/authMiddleware";
+
 /**
  * @swagger
  * tags:
@@ -72,7 +74,7 @@ router.get("/:id", getDogById);
  *       500:
  *         description: Server error
  */
-router.post("/", postDog);
+router.post("/", protect, adminOnly, postDog);
 
 /**
  * @swagger
@@ -102,7 +104,7 @@ router.post("/", postDog);
  *       500:
  *         description: Server error
  */
-router.put("/:id", updateDog);
+router.put("/:id", protect, adminOnly, updateDog);
 
 /**
  * @swagger
@@ -124,6 +126,6 @@ router.put("/:id", updateDog);
  *       500:
  *         description: Server error
  */
-router.delete("/:id", deleteDog);
+router.delete("/:id", protect, adminOnly, deleteDog);
 
 module.exports = router;

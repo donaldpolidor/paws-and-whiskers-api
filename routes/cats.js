@@ -10,6 +10,8 @@ const {
   deleteCat
 } = require("../controllers/catControllers");
 
+const { protect, adminOnly } = require("../middleware/authMiddleware");
+
 /**
  * @swagger
  * tags:
@@ -72,7 +74,7 @@ router.get("/:id", getCatById);
  *       500:
  *         description: Server error
  */
-router.post("/", postCat);
+router.post("/", protect, adminOnly, postCat);
 
 /**
  * @swagger
@@ -100,7 +102,7 @@ router.post("/", postCat);
  *       500:
  *         description: Server error
  */
-router.put("/:id", updateCat);
+router.put("/:id", protect, adminOnly, updateCat);
 
 /**
  * @swagger
@@ -122,6 +124,6 @@ router.put("/:id", updateCat);
  *       500:
  *         description: Server error
  */
-router.delete("/:id", deleteCat);
+router.delete("/:id", protect, adminOnly, deleteCat);
 
 module.exports = router;
