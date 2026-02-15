@@ -1,5 +1,5 @@
-const express =  require("express");
-const { register, login } = require('../controllers/oauthControllers.js') 
+const express = require("express");
+const { register, login } = require('../controllers/oauthControllers.js');
 
 const router = express.Router();
 
@@ -30,7 +30,7 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post('/register', register);
+router.post("/register", register);
 
 /**
  * @swagger
@@ -52,6 +52,6 @@ router.post('/register', register);
  *       500:
  *         description: Server error
  */
-router.post('/login', login);
+router.post("/login", login);
 
 module.exports = router;

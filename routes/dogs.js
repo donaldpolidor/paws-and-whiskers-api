@@ -62,6 +62,8 @@ router.get("/:id", getDogById);
  *   post:
  *     summary: Create a new dog
  *     tags: [Dogs]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -71,6 +73,8 @@ router.get("/:id", getDogById);
  *     responses:
  *       201:
  *         description: Dog created successfully
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Server error
  */
@@ -82,6 +86,8 @@ router.post("/", protect, adminOnly, postDog);
  *   put:
  *     summary: Update a dog by ID
  *     tags: [Dogs]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -97,6 +103,8 @@ router.post("/", protect, adminOnly, postDog);
  *     responses:
  *       200:
  *         description: Dog updated successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Dog not found
  *       400:
@@ -112,6 +120,8 @@ router.put("/:id", protect, adminOnly, updateDog);
  *   delete:
  *     summary: Delete a dog by ID
  *     tags: [Dogs]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -121,6 +131,8 @@ router.put("/:id", protect, adminOnly, updateDog);
  *     responses:
  *       200:
  *         description: Dog deleted successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Dog not found
  *       500:

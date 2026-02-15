@@ -1,19 +1,32 @@
 // config/swagger.js
 const swaggerJsdoc = require("swagger-jsdoc");
-
 const path = require("path");
 
 const options = {
   definition: {
-    openapi: "3.0.0", // version of OpenAPI
+    openapi: "3.0.0", // OpenAPI version
     info: {
-      title: "My API Documentation",
+      title: "Paws & Whiskers API",
       version: "1.0.0",
       description: "Auto-generated Swagger docs for my Express API",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT"
+        }
+      }
+    },
+    // This enables the 🔒 Authorize button globally
+    security: [
+      {
+        bearerAuth: []
+      }
+    ]
   },
-  // Paths to files containing OpenAPI definitions (your routes/controllers)
-  apis: [path.join(__dirname, "../routes/*.js")],
+  apis: [path.join(__dirname, "../routes/*.js")], // look for @swagger comments
 };
 
 const swaggerSpec = swaggerJsdoc(options);

@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Auth API",
-    "version": "1.0.0"
+    "title": "Paws & Whiskers API",
+    "version": "1.0.0",
+    "description": "API for managing Cats, Dogs, and Authentication"
   },
   "servers": [
     {
@@ -10,24 +11,176 @@
     }
   ],
   "paths": {
-    "/api/auth/register": {
+    "/api/cats": {
+      "get": {
+        "summary": "Get all cats",
+        "tags": ["Cats"],
+        "responses": {
+          "200": { "description": "List of cats" },
+          "500": { "description": "Server error" }
+        }
+      },
       "post": {
-        "summary": "Register user",
-        "tags": ["Auth"],
+        "summary": "Create a new cat",
+        "tags": ["Cats"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterInput"
-              }
-            }
+            "application/json": { "schema": { "$ref": "#/components/schemas/Cat" } }
           }
         },
         "responses": {
-          "201": {
-            "description": "User created"
+          "201": { "description": "Cat created successfully" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/cats/{id}": {
+      "get": {
+        "summary": "Get a single cat by ID",
+        "tags": ["Cats"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Cat found" },
+          "404": { "description": "Cat not found" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "put": {
+        "summary": "Update a cat by ID",
+        "tags": ["Cats"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Cat" } }
           }
+        },
+        "responses": {
+          "200": { "description": "Cat updated successfully" },
+          "404": { "description": "Cat not found" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a cat by ID",
+        "tags": ["Cats"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Cat deleted successfully" },
+          "404": { "description": "Cat not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/dogs": {
+      "get": {
+        "summary": "Get all dogs",
+        "tags": ["Dogs"],
+        "responses": {
+          "200": { "description": "List of dogs" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "post": {
+        "summary": "Create a new dog",
+        "tags": ["Dogs"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Dog" } }
+          }
+        },
+        "responses": {
+          "201": { "description": "Dog created successfully" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/dogs/{id}": {
+      "get": {
+        "summary": "Get a single dog by ID",
+        "tags": ["Dogs"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Dog found" },
+          "404": { "description": "Dog not found" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "put": {
+        "summary": "Update a dog by ID",
+        "tags": ["Dogs"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Dog" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "Dog updated successfully" },
+          "404": { "description": "Dog not found" },
+          "400": { "description": "Validation error" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a dog by ID",
+        "tags": ["Dogs"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Dog deleted successfully" },
+          "404": { "description": "Dog not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Auth"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RegisterInput" } }
+          }
+        },
+        "responses": {
+          "201": { "description": "User registered successfully" },
+          "400": { "description": "Validation error" },
+          "500": { "description": "Server error" }
         }
       }
     },
@@ -35,20 +188,31 @@
       "post": {
         "summary": "Login user",
         "tags": ["Auth"],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginInput"
-              }
-            }
+            "application/json": { "schema": { "$ref": "#/components/schemas/LoginInput" } }
           }
         },
         "responses": {
-          "200": {
-            "description": "Login success"
-          }
+          "200": { "description": "Login successful" },
+          "401": { "description": "Invalid credentials" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "summary": "Get current authenticated user",
+        "tags": ["Auth"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "responses": {
+          "200": { "description": "Current user info returned" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
         }
       }
     }
@@ -62,42 +226,41 @@
       }
     },
     "schemas": {
+      "Cat": {
+        "type": "object",
+        "required": ["name", "age", "breed"],
+        "properties": {
+          "name": { "type": "string" },
+          "age": { "type": "integer" },
+          "breed": { "type": "string" }
+        }
+      },
+      "Dog": {
+        "type": "object",
+        "required": ["name", "age", "breed"],
+        "properties": {
+          "name": { "type": "string" },
+          "age": { "type": "integer" },
+          "breed": { "type": "string" }
+        }
+      },
       "RegisterInput": {
         "type": "object",
         "required": ["name", "email", "password"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "format": "password"
-          }
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "format": "password" }
         }
       },
       "LoginInput": {
         "type": "object",
         "required": ["email", "password"],
         "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "format": "password"
-          }
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "format": "password" }
         }
       }
     }
-  },
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ]
+  }
 }

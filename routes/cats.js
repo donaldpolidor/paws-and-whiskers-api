@@ -1,6 +1,5 @@
 ﻿const express = require("express");
 const Cat = require("../models/Cat");
-
 const router = express.Router();
 const {
   getAllCats,
@@ -9,7 +8,6 @@ const {
   updateCat,
   deleteCat
 } = require("../controllers/catControllers");
-
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 /**
@@ -62,6 +60,8 @@ router.get("/:id", getCatById);
  *   post:
  *     summary: Create a new cat
  *     tags: [Cats]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -71,6 +71,8 @@ router.get("/:id", getCatById);
  *     responses:
  *       201:
  *         description: Cat created successfully
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Server error
  */
@@ -82,6 +84,8 @@ router.post("/", protect, adminOnly, postCat);
  *   put:
  *     summary: Update a cat by ID
  *     tags: [Cats]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -97,6 +101,8 @@ router.post("/", protect, adminOnly, postCat);
  *     responses:
  *       200:
  *         description: Cat updated successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Cat not found
  *       500:
@@ -110,6 +116,8 @@ router.put("/:id", protect, adminOnly, updateCat);
  *   delete:
  *     summary: Delete a cat by ID
  *     tags: [Cats]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -119,6 +127,8 @@ router.put("/:id", protect, adminOnly, updateCat);
  *     responses:
  *       200:
  *         description: Cat deleted successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Cat not found
  *       500:
