@@ -54,7 +54,7 @@ app.get("/", (req, res) => {
 // API Routes
 app.use("/api/dogs", dogsRoutes);
 app.use("/api/cats", catsRoutes);
-app.use("/auth", oauthRoutes);
+app.use("/api/auth", oauthRoutes);
 
 
 // 404 handler

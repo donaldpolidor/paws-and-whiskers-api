@@ -1,10 +1,10 @@
 // register a new user
-const { User } = require('../models/User.js');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ message: 'Email and password are required' });
@@ -21,11 +21,12 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const newUser = await User.create({ email, password: hashedPassword });
+    const newUser = await User.create({ username, email, password: hashedPassword });
 
     res.status(201).json({ message: 'User registered successfully', user: {
       id: newUser._id,
       email: newUser.email,
+      username: newUser.username,
     } });
 
   } catch (error) {
