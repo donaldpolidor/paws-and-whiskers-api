@@ -1,5 +1,5 @@
-import express from 'express';
-import { register, login } from '../controllers/oauthController.js';
+const express =  require("express");
+const { register, login } = require('../controllers/oauthControllers.js') 
 
 const router = express.Router();
 
@@ -54,4 +54,4 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
-export default router;
+module.exports = router;

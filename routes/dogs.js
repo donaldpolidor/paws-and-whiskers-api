@@ -10,7 +10,7 @@ const {
   deleteDog
 } = require("../controllers/dogControllers");
 
-import { protect, adminOnly } from "../middleware/authMiddleware";
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 /**
  * @swagger
