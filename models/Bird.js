@@ -13,8 +13,11 @@ const birdSchema = new mongoose.Schema({
   },
   size: {
     type: String,
-    enum: ["Small", "Medium", "Large"],
-    required: true
+    enum: {
+      values: ["Small", "Medium", "Large"],
+      message: "{VALUE} is not a valid size. Must be Small, Medium, or Large"
+    },
+    required: [true, "Size is required"]
   },
   color: {
     type: String,
@@ -22,13 +25,16 @@ const birdSchema = new mongoose.Schema({
   },
   talkingAbility: {
     type: Number,
-    min: 1,
-    max: 5,
+    min: [1, "Talking ability must be at least 1"],
+    max: [5, "Talking ability cannot exceed 5"],
     default: 1
   },
   flightAbility: {
     type: String,
-    enum: ["Poor", "Moderate", "Excellent"],
+    enum: {
+      values: ["Poor", "Moderate", "Excellent"],
+      message: "{VALUE} is not a valid flight ability"
+    },
     default: "Excellent"
   },
   temperament: [String],

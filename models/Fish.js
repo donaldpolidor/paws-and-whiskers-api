@@ -13,22 +13,34 @@ const fishSchema = new mongoose.Schema({
   },
   size: {
     type: String,
-    enum: ["Small", "Medium", "Large"],
-    required: true
+    enum: {
+      values: ["Small", "Medium", "Large"],
+      message: "{VALUE} is not a valid size. Must be Small, Medium, or Large"
+    },
+    required: [true, "Size is required"]
   },
   waterType: {
     type: String,
-    enum: ["Freshwater", "Saltwater", "Brackish"],
-    required: true
+    enum: {
+      values: ["Freshwater", "Saltwater", "Brackish"],
+      message: "{VALUE} is not a valid water type"
+    },
+    required: [true, "Water type is required"]
   },
   temperament: {
     type: String,
-    enum: ["Peaceful", "Semi-aggressive", "Aggressive"],
+    enum: {
+      values: ["Peaceful", "Semi-aggressive", "Aggressive"],
+      message: "{VALUE} is not a valid temperament"
+    },
     default: "Peaceful"
   },
   careLevel: {
     type: String,
-    enum: ["Easy", "Moderate", "Difficult"],
+    enum: {
+      values: ["Easy", "Moderate", "Difficult"],
+      message: "{VALUE} is not a valid care level"
+    },
     default: "Easy"
   },
   imageUrl: String
