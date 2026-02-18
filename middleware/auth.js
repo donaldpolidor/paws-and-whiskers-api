@@ -1,6 +1,6 @@
+// middleware/auth.js
 const jwt = require('jsonwebtoken');
 
-// Protecting roads - Verifying the JWT token
 exports.protect = async (req, res, next) => {
   try {
     let token;
@@ -41,4 +41,15 @@ exports.admin = (req, res, next) => {
       code: 'ADMIN_ONLY'
     });
   }
+};
+
+// Middleware to verify whether the user is logged in via OAuth
+exports.isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ 
+    error: 'Not authenticated',
+    code: 'NOT_AUTHENTICATED'
+  });
 };

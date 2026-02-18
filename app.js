@@ -6,9 +6,9 @@ require("dotenv").config();
 
 const app = express();
 
-// Session middleware (pour OAuth)
+// Session middleware (for OAuth)
 app.use(session({
-  secret: process.env.JWT_SECRET,
+  secret: process.env.JWT_SECRET || 'your-secret-key',
   resave: false,
   saveUninitialized: false
 }));

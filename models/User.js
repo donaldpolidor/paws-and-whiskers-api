@@ -1,4 +1,5 @@
-﻿const mongoose = require("mongoose");
+﻿// models/User.js
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -16,7 +17,16 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: false  
+  },
+  googleId: {         
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  avatar: {           
+    type: String,
+    default: null
   },
   role: {
     type: String,
